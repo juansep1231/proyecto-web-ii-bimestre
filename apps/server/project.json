@@ -43,6 +43,13 @@
       "options": {
         "buildTarget": "server:build"
       },
+      "test": {
+        "executor": "@nx/jest:jest",
+        "options": {
+          "jestConfig": "libs/my-lib/jest.config.ts",
+          "passWithNoTests": true
+        }
+      },
       "configurations": {
         "development": {
           "buildTarget": "server:build:development"
