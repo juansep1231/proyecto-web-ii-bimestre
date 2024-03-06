@@ -67,5 +67,8 @@
         "linter": "eslint"
       }
     }
+  },
+  "affected": {
+    "defaultBase": "main"
   }
 }
