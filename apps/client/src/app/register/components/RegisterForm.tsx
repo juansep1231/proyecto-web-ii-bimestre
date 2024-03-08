@@ -1,38 +1,55 @@
 import React, { useState } from 'react';
 import MyInput from '../../components/generic/MyInput';
-import MyLink from '../../components/generic/MyLink';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../../context/AuthContext';
+import { ToastContainer } from 'react-toastify';
 
 interface Props {
   onSubmit: (formData: {
-    username: string;
+    email: string;
     password: string;
     confirmPassword: string;
-  }) => void;
+  }) => Promise<void>;
 }
 
 const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const { signup } = useAuth();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit({ username, password, confirmPassword });
+
+    if (password !== confirmPassword) {
+      toast.error('Las contraseñas no coinciden');
+      return;
+    }
+
+    try {
+      await signup(email, password);
+      onSubmit({ email, password, confirmPassword });
+      toast('Su registro se realizó con éxito');
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center border bg-white rounded-tr-2xl rounded-br-2xl w-96 h-4/5 gap-8">
+    <div className="flex flex-col items-center justify-center border bg-white rounded-tr-2xl rounded-br-2xl w-96 h-4/5 gap-5">
       <div>
-        <h1 className="text-2xl text-gray-700">Registrar nueva cuenta</h1>
+        <h1 className="text-2xl text-gray-700">Registrar cuenta nueva</h1>
       </div>
+      <ToastContainer />
       <form onSubmit={handleSubmit} className="flex flex-col gap-8">
         <div className="flex flex-col gap-5">
           <MyInput
             label="Correo"
-            name="username"
+            name="email"
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Ingrese su correo"
             icon="FiAtSign"
           />
@@ -46,15 +63,16 @@ const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
             icon="FiLock"
           />
           <MyInput
-            label="Contraseña"
-            name="password"
+            label="Confirmar contraseña"
+            name="confirmPassword"
             type="password"
-            value={password}
+            value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Ingrese nuevamente su contraseña"
             icon="FiLock"
           />
         </div>
+
         <div className="flex justify-center">
           <button
             type="submit"

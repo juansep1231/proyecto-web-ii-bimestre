@@ -1,16 +1,13 @@
+// LoginPage.tsx
 import React from 'react';
 import LoginForm from './components/loginForm';
 import MyLink from '../components/generic/MyLink';
 
 const LoginPage: React.FC = () => {
-  const handleLogin = (formData: { username: string; password: string }) => {
-    console.log('Formulario de login enviado:', formData);
-  };
-
   return (
     <div>
       <div className="flex justify-center h-screen pt-14 bg-neutral-100">
-        <LoginForm onSubmit={handleLogin} />
+        <LoginForm />
         <div className="flex flex-col items-center justify-center bg-[#5f9ea0] rounded-tr-2xl rounded-br-2xl w-96 h-4/5 gap-5 px-5">
           <div>
             <img src="/img/logoFFLight.png" alt="Logo FF" className="h-72" />
@@ -24,7 +21,7 @@ const LoginPage: React.FC = () => {
           <div>
             <MyLink
               href={`/register`}
-              className="text-small m-auto text-blue-800 tex"
+              className="text-small m-auto text-blue-800"
             >
               ¿No tienes cuenta? Regístrate
             </MyLink>
