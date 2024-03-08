@@ -1,17 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import AddForm from './AddForm';
+import { db } from '../../../../../../firebase-shared/src/lib/firebase-shared';
+import { collection, doc, setDoc } from "firebase/firestore";
 
 const AddPage: React.FC = () => {
   // Aquí podrías tener lógica adicional relacionada con esta página si es necesario
 
-  const handleSubmit = (formData: {
+  const handleSubmit = async (formData: {
     id: string;
     name: string;
     description: string;
     price: number;
-    photo: File | null;
+    url: string;
   }) => {
-    // Aquí podrías manejar la lógica de envío del formulario
+    const { id, name, description, price, url } = formData;
+    const productosCollection = collection(db, "productos");
+    const productoDoc = doc(productosCollection, id);
+    try {
+      await setDoc(productoDoc, {
+        name: name,
+        description: description,
+        price: price,
+        url: url
+      });
+      console.log("Producto guardado correctamente.");
+    } catch (error) {
+      console.error("Error al guardar el producto:", error);
+    }
     console.log(formData);
   };
 

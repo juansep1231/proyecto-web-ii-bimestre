@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { FiAtSign, FiLock, FiUpload } from 'react-icons/fi';
 import MyInput from '../../components/generic/MyInput';
 import MyLink from '../../components/generic/MyLink';
+import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
+import { storage } from '../../../../../../firebase-shared/src/lib/firebase-shared';
 
 interface Props {
   onSubmit: (formData: {
@@ -9,7 +11,7 @@ interface Props {
     name: string;
     description: string;
     price: number;
-    photo: File;
+    url: string;
   }) => void;
 }
 
@@ -19,18 +21,45 @@ const AddForm: React.FC<Props> = ({ onSubmit }) => {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(0);
   const [photo, setPhoto] = useState<File | null>(null);
+  const [url, setUrl] = useState('');
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSubmit({ id, name, description, price, photo: photo as File });
+  //Cargar imagen al storage
+  const uploadFile = async (file: File) => {
+    const storageRef = ref(storage, `${file.name}/`);
+    try {
+      await uploadBytes(storageRef, file);
+      console.log('Uploaded a blob or file!');
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
   };
 
-  const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const getImageUrl = async (name: string) => {
+    try {
+      const downloadUrl = await getDownloadURL(ref(storage, name));
+      return downloadUrl;
+    } catch (error) {
+      console.error('Error getting image URL:', error);
+      return '';
+    }
+  };
+
+
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    await uploadFile(photo as File);
+    setUrl(await getImageUrl(name as string));
+    onSubmit({ id, name, description, price, url });
+  };
+
+  const handlePhotoChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
       setPhoto(file);
     }
   };
+
 
   return (
     <div className="flex flex-col items-center justify-center border bg-white rounded-2xl w-[450px] h-5/5 gap-8 py-10 shadow-md">
