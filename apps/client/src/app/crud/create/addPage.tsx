@@ -15,7 +15,7 @@ const AddPage: React.FC = () => {
   }) => {
     const { id, name, description, price, url } = formData;
     try {
-      const response = await fetch('/products/new-product', {
+      const response = await fetch('https://productms-jgvgw6iyea-uc.a.run.app/products/new-product', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -25,7 +25,7 @@ const AddForm: React.FC<Props> = ({ onSubmit }) => {
 
   //Cargar imagen al storage
   const uploadFile = async (file: File) => {
-    const storageRef = ref(storage, `${file.name}/`);
+    const storageRef = ref(storage, name);
     try {
       await uploadBytes(storageRef, file);
       console.log('Uploaded a blob or file!');
@@ -37,6 +37,7 @@ const AddForm: React.FC<Props> = ({ onSubmit }) => {
   const getImageUrl = async (name: string) => {
     try {
       const downloadUrl = await getDownloadURL(ref(storage, name));
+      console.log(downloadUrl)
       return downloadUrl;
     } catch (error) {
       console.error('Error getting image URL:', error);
@@ -49,13 +50,15 @@ const AddForm: React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await uploadFile(photo as File);
-    setUrl(await getImageUrl(name as string));
+    const imageUrl = await getImageUrl(name as string); // Await the getImageUrl function call
+    setUrl(imageUrl); // Set the url state variable with the resolved value
     onSubmit({ id, name, description, price, url });
   };
 
   const handlePhotoChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
+      console.log("Nombre del archivo seleccionado:", file.name);
       setPhoto(file);
     }
   };
