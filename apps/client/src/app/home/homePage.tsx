@@ -32,12 +32,21 @@ const HomePage: React.FC = () => {
     // Más productos...
   ];
 
+  const handleDelete = () => {
+    // Lógica para manejar el evento de borrar
+    console.log('Producto borrado');
+  };
+
   return (
     <div className="p-12 flex flex-col items-center gap-12">
       <h1 className="font-bold text-4xl">FASHION FUSION</h1>
       <div className="flex justify-center gap-12">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard
+            key={product.id}
+            product={product}
+            onDelete={handleDelete}
+          />
         ))}
       </div>
     </div>
