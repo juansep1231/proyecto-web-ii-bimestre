@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import MyInput from '../../../components/generic/MyInput';
 import ProductCardShow from './ProductCardShow';
 
@@ -10,24 +11,27 @@ interface Product {
   image: string; // Cambiado a 'photo' en lugar de 'photoRef'
 }
 
-interface Props {
-  products: Product[];
-}
-
-const ProductById: React.FC<Props> = ({ products }) => {
+const ProductById: React.FC = () => {
   const [productId, setProductId] = useState('');
   const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProductId(event.target.value);
   };
 
-  const handleSearch = () => {
-    const foundProduct = products.find((product) => product.id === productId);
-    if (foundProduct) {
-      setProduct(foundProduct);
-    } else {
+  const handleSearch = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `https://productms-jgvgw6iyea-uc.a.run.app/products/get-product/${productId}`
+      );
+      setProduct(response.data);
+    } catch (error) {
+      console.error('Error fetching product:', error);
       setProduct(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,8 +50,9 @@ const ProductById: React.FC<Props> = ({ products }) => {
         <button
           onClick={handleSearch}
           className="rounded-xl bg-[#0f70b7] w-20 text-white h-12"
+          disabled={loading}
         >
-          Buscar
+          {loading ? 'Cargando...' : 'Buscar'}
         </button>
       </div>
       {product && (
@@ -55,7 +60,7 @@ const ProductById: React.FC<Props> = ({ products }) => {
           <ProductCardShow product={product} />
         </div>
       )}
-      {!product && productId && (
+      {!product && productId && !loading && (
         <p>No se encontró ningún producto con ese identificador.</p>
       )}
     </div>

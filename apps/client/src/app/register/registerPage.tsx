@@ -3,12 +3,19 @@ import RegisterForm from './components/RegisterForm';
 import MyLink from '../components/generic/MyLink';
 
 const SignupPage: React.FC = () => {
-  const handleSignup = (formData: {
-    username: string;
+  const handleSignup = async (formData: {
+    email: string;
     password: string;
     confirmPassword: string;
-  }) => {
-    console.log('Formulario de login enviado:', formData);
+  }): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      try {
+        console.log('Formulario de registro enviado:', formData);
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
   };
 
   return (
