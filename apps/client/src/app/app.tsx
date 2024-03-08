@@ -16,7 +16,6 @@ import { ProtectedRoute } from './components/generic/ProtectedRoute';
 export function App() {
   return (
     <div>
-      <Navbar />
       <AuthProvider>
         <Routes>
           <Route path="*" element={<LoginPage />} />

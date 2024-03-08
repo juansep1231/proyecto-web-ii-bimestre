@@ -6,7 +6,7 @@ import MyLink from '../components/generic/MyLink';
 const LoginPage: React.FC = () => {
   return (
     <div>
-      <div className="flex justify-center h-screen pt-14 bg-neutral-100">
+      <div className="flex justify-center h-screen items-center bg-neutral-100">
         <LoginForm />
         <div className="flex flex-col items-center justify-center bg-[#5f9ea0] rounded-tr-2xl rounded-br-2xl w-96 h-4/5 gap-5 px-5">
           <div>
