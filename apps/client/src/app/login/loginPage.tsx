@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginForm from './components/LoginForm';
+import LoginForm from './components/loginForm';
 import MyLink from '../components/generic/MyLink';
 
 const LoginPage: React.FC = () => {
