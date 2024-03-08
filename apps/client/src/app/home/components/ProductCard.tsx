@@ -20,7 +20,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
   };
 
   return (
-    <div className="border rounded-lg overflow-hidden shadow-lg w-80 p-8 flex flex-col items-center justify-between gap-3 h-[550px]">
+    <div className="border rounded-lg overflow-hidden shadow-lg w-80 p-8 flex flex-col items-center justify-between gap-3 h-56">
       <div className="flex justify-end w-full">
         <button
           onClick={handleDeleteClick} // Usa la función de manejo de clic para eliminar
@@ -29,7 +29,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
           <MyIcon icon="FiTrash2" />
         </button>
       </div>
-      <img className="h-72" src={product.image} alt={product.name} />
       <div className="flex flex-col items-center text-center">
         <h2 className="text-lg font-semibold">{product.name}</h2>
         <p className="text-gray-600">{product.description}</p>
