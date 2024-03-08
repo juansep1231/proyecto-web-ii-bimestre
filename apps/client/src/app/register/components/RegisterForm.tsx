@@ -1,24 +1,29 @@
+import React, { useState } from 'react';
 import MyInput from '../../components/generic/MyInput';
-import { useState } from 'react';
 import MyLink from '../../components/generic/MyLink';
 
 interface Props {
-  onSubmit: (formData: { username: string; password: string }) => void;
+  onSubmit: (formData: {
+    username: string;
+    password: string;
+    confirmPassword: string;
+  }) => void;
 }
 
-const LoginForm: React.FC<Props> = ({ onSubmit }) => {
+const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit({ username, password });
+    onSubmit({ username, password, confirmPassword });
   };
 
   return (
-    <div className="flex flex-col items-center justify-center border bg-white rounded-tl-2xl rounded-bl-2xl w-96 h-4/5 gap-8">
+    <div className="flex flex-col items-center justify-center border bg-white rounded-tr-2xl rounded-br-2xl w-96 h-4/5 gap-8">
       <div>
-        <h1 className="text-2xl text-gray-700">Inicio de sesión</h1>
+        <h1 className="text-2xl text-gray-700">Registrar nueva cuenta</h1>
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-8">
         <div className="flex flex-col gap-5">
@@ -40,21 +45,22 @@ const LoginForm: React.FC<Props> = ({ onSubmit }) => {
             placeholder="Ingrese su contraseña"
             icon="FiLock"
           />
-        </div>
-        <div className="text-right">
-          <MyLink
-            href={`/reset-password`}
-            className="text-small m-auto text-[#0f70b7]"
-          >
-            ¿Olvidaste tu contraseña?
-          </MyLink>
+          <MyInput
+            label="Contraseña"
+            name="password"
+            type="password"
+            value={password}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Ingrese nuevamente su contraseña"
+            icon="FiLock"
+          />
         </div>
         <div className="flex justify-center">
           <button
             type="submit"
             className="btn btn-primary p-3 rounded-xl bg-[#0f70b7] w-2/5 text-white"
           >
-            Iniciar sesión
+            Registrarse
           </button>
         </div>
       </form>
@@ -62,4 +68,4 @@ const LoginForm: React.FC<Props> = ({ onSubmit }) => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

@@ -1,17 +1,20 @@
 import React from 'react';
-import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
 import MyLink from '../components/generic/MyLink';
 
-const LoginPage: React.FC = () => {
-  const handleLogin = (formData: { username: string; password: string }) => {
+const SignupPage: React.FC = () => {
+  const handleSignup = (formData: {
+    username: string;
+    password: string;
+    confirmPassword: string;
+  }) => {
     console.log('Formulario de login enviado:', formData);
   };
 
   return (
     <div>
       <div className="flex justify-center h-screen pt-14 bg-neutral-100">
-        <LoginForm onSubmit={handleLogin} />
-        <div className="flex flex-col items-center justify-center bg-[#5f9ea0] rounded-tr-2xl rounded-br-2xl w-96 h-4/5 gap-5 px-5">
+        <div className="flex flex-col items-center justify-center bg-[#5f9ea0] rounded-tl-2xl rounded-bl-2xl w-96 h-4/5 gap-5 px-5">
           <div>
             <img src="/img/logoFFLight.png" alt="Logo FF" className="h-72" />
           </div>
@@ -23,16 +26,18 @@ const LoginPage: React.FC = () => {
           </div>
           <div>
             <MyLink
-              href={`/register`}
+              href={`/login`}
               className="text-small m-auto text-blue-800 tex"
             >
-              ¿No tienes cuenta? Regístrate
+              ¡Empieza ya! Inicia sesión
             </MyLink>
           </div>
         </div>
+
+        <RegisterForm onSubmit={handleSignup} />
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default SignupPage;

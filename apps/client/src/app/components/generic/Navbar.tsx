@@ -10,7 +10,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="flex items-center justify-between bg-[#5f9ea0] text-gray-700 text-lg py-4 px-8">
+    <nav className="flex items-center justify-between bg-[#5f9ea0] text-neutral-100 text-lg py-4 px-8">
       <div className="flex items-center">
         <Link to="/login" className="text-xl font-bold">
           <img
