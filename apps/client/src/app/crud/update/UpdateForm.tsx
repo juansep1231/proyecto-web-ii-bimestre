@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { FiAtSign, FiUpload } from 'react-icons/fi';
 import MyInput from '../../components/generic/MyInput';
+import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
+import { storage } from '../../../firebase';
+
 
 interface Props {
   onSubmit: (formData: {
@@ -8,27 +11,46 @@ interface Props {
     name: string;
     description: string;
     price: number;
-    image: File | null;
+    url: string;
   }) => void;
-  initialValues: {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    image: File | null;
-  };
 }
 
-const UpdateForm: React.FC<Props> = ({ onSubmit, initialValues }) => {
-  const [id, setId] = useState(initialValues.id);
-  const [name, setName] = useState(initialValues.name);
-  const [description, setDescription] = useState(initialValues.description);
-  const [price, setPrice] = useState(initialValues.price);
-  const [image, setImage] = useState<File | null>(initialValues.image);
+const UpdateForm: React.FC<Props> = ({ onSubmit }) => {
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState(0);
+  const [image, setImage] = useState<File | null>(null);
+  const [url, setUrl] = useState('');
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    //Cargar imagen al storage
+    const uploadFile = async (file: File) => {
+      const storageRef = ref(storage, name);
+      try {
+        await uploadBytes(storageRef, file);
+        console.log('Uploaded file!');
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    };
+
+    const getImageUrl = async (name: string) => {
+      try {
+        const downloadUrl = await getDownloadURL(ref(storage, name));
+        setUrl(downloadUrl);
+        return downloadUrl;
+      } catch (error) {
+        console.error('Error getting image URL:', error);
+        return '';
+      }
+    };
+
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit({ id, name, description, price, image });
+    await uploadFile(image as File);
+    const imageUrl = await getImageUrl(name as string);
+    onSubmit({ id, name, description, price, url: imageUrl });
   };
 
   const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
