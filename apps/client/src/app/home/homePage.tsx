@@ -2,38 +2,28 @@ import React, { useEffect, useState } from 'react';
 import ProductCard from './components/ProductCard';
 
 const HomePage: React.FC = () => {
-  //const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
 
-  /*useEffect(() => {
-    // Llama a la función fetchProducts para obtener los datos de los productos
+  useEffect(() => {
     async function fetchData() {
-      const data = await fetchProducts();
-      setProducts(data);
+      try {
+        const response = await fetch(
+          'https://productms-jgvgw6iyea-uc.a.run.app/products'
+        );
+        if (!response.ok) {
+          throw new Error('Error al obtener los productos');
+        }
+        const data = await response.json();
+        console.log(data);
+        setProducts(data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
     fetchData();
-  }, []);*/
-
-  // Arreglo de productos
-  const products = [
-    {
-      id: 1,
-      name: 'Vestido',
-      image: '/img/vestido.png',
-      description: 'Vestido floreado casual de manga corta',
-      price: 35.0,
-    },
-    {
-      id: 2,
-      name: 'Producto 2',
-      image: '/img/vestido.png',
-      description: 'Vestido floreado casual de manga corta',
-      price: 20.99,
-    },
-    // Más productos...
-  ];
+  }, []);
 
   const handleDelete = () => {
-    // Lógica para manejar el evento de borrar
     console.log('Producto borrado');
   };
 

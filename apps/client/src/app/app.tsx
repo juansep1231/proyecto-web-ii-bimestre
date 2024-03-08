@@ -10,22 +10,54 @@ import ShowPage from './crud/read/showPage';
 import LoginPage from './login/loginPage';
 import ResetPasswordPage from './reset-password/resetPasswordPage';
 import SignupPage from './register/registerPage';
+import { AuthProvider } from './context/AuthContext';
+import { ProtectedRoute } from './components/generic/ProtectedRoute';
 
 export function App() {
   return (
     <div>
       <Navbar />
+      <AuthProvider>
+        <Routes>
+          <Route path="*" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<SignupPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-      <Routes>
-        <Route path="*" element={<HomePage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/add" element={<AddPage />} />
-        <Route path="/update" element={<UpdatePage />} />
-        <Route path="/show" element={<ShowPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<SignupPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
-      </Routes>
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <HomePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/add"
+            element={
+              <ProtectedRoute>
+                <AddPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/update"
+            element={
+              <ProtectedRoute>
+                <UpdatePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/show"
+            element={
+              <ProtectedRoute>
+                <ShowPage />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AuthProvider>
       {/* END: routes */}
     </div>
   );

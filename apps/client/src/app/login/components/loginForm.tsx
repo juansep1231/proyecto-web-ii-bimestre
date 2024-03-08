@@ -1,18 +1,39 @@
+import React, { useState } from 'react';
 import MyInput from '../../components/generic/MyInput';
-import { useState } from 'react';
 import MyLink from '../../components/generic/MyLink';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { toast } from 'react-toastify';
 
-interface Props {
-  onSubmit: (formData: { username: string; password: string }) => void;
-}
+const LoginForm: React.FC = () => {
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+  });
+  const { login, loginWithGoogle, resetPassword } = useAuth();
+  const navigate = useNavigate();
 
-const LoginForm: React.FC<Props> = ({ onSubmit }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await login(user.email, user.password);
+      toast('Bienvenido');
+      navigate('/home');
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSubmit({ username, password });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setUser({ ...user, [e.target.name]: e.target.value });
+
+  const handleGoogleSignin = async () => {
+    try {
+      await loginWithGoogle();
+      navigate('/home');
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -24,10 +45,10 @@ const LoginForm: React.FC<Props> = ({ onSubmit }) => {
         <div className="flex flex-col gap-5">
           <MyInput
             label="Correo"
-            name="username"
+            name="email"
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={user.email}
+            onChange={handleChange}
             placeholder="Ingrese su correo"
             icon="FiAtSign"
           />
@@ -35,8 +56,8 @@ const LoginForm: React.FC<Props> = ({ onSubmit }) => {
             label="Contraseña"
             name="password"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={user.password}
+            onChange={handleChange}
             placeholder="Ingrese su contraseña"
             icon="FiLock"
           />
@@ -52,12 +73,18 @@ const LoginForm: React.FC<Props> = ({ onSubmit }) => {
         <div className="flex justify-center">
           <button
             type="submit"
-            className="btn btn-primary p-3 rounded-xl bg-[#0f70b7] w-2/5 text-white"
+            className="btn btn-primary p-3 rounded-xl bg-[#0f70b7] w-60 text-white hover:bg-gray-400"
           >
             Iniciar sesión
           </button>
         </div>
       </form>
+      <button
+        onClick={handleGoogleSignin}
+        className="btn btn-primary p-3 rounded-xl w-60 bg-[#0f70b7] hover:bg-gray-400 text-white"
+      >
+        Inicia sesion con Google
+      </button>
     </div>
   );
 };

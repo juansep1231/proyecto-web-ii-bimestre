@@ -1,23 +1,38 @@
-'use client';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import MyInput from '../../components/generic/MyInput';
-import MyButton from '../../components/generic/MyButton';
+import { useAuth } from '../../context/AuthContext';
+import { toast } from 'react-toastify';
 
 interface Props {
   onClick: () => void;
 }
 
 const PasswordForm = ({ onClick }: Props) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const { resetPassword } = useAuth();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!email) {
+      toast.error('Write an email to reset password');
+      return;
+    }
+    try {
+      await resetPassword(email);
+      toast.success('El email fue enviado, revisa tu correo');
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <form
       className="flex flex-col gap-6 w-96 items-center"
-      onSubmit={(e) => e.preventDefault()}
+      onSubmit={handleSubmit}
     >
       <div className="text-center">
         <p className="text-2xl text-gray-700 dark:text-white">
-          Reestablecer contaseña
+          Reestablecer contraseña
         </p>
       </div>
       <div>
@@ -25,10 +40,10 @@ const PasswordForm = ({ onClick }: Props) => {
       </div>
       <MyInput
         label="Correo"
-        name="username"
+        name="email"
         type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         placeholder="Ingrese su correo"
         icon="FiAtSign"
       />
@@ -36,6 +51,7 @@ const PasswordForm = ({ onClick }: Props) => {
         <button
           type="submit"
           className="btn btn-primary p-3 rounded-xl bg-[#0f70b7] w-28 text-white"
+          onClick={onClick}
         >
           Continuar
         </button>
