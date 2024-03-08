@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import Navbar from './Navbar';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -13,5 +14,10 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   if (!user) return <Navigate to="/login" />;
 
-  return <>{children}</>;
+  return (
+    <>
+      <Navbar />
+      {children}
+    </>
+  );
 }
