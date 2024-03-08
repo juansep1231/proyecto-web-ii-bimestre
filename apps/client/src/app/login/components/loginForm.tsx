@@ -20,7 +20,7 @@ const LoginForm: React.FC<Props> = ({ onSubmit }) => {
       <div>
         <h1 className="text-2xl text-gray-700">Inicio de sesión</h1>
       </div>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-8">
         <div className="flex flex-col gap-5">
           <MyInput
             label="Correo"
@@ -37,7 +37,7 @@ const LoginForm: React.FC<Props> = ({ onSubmit }) => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Ingrese su usuario"
+            placeholder="Ingrese su contraseña"
             icon="FiLock"
           />
         </div>
