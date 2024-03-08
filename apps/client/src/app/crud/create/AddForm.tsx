@@ -3,7 +3,7 @@ import { FiAtSign, FiLock, FiUpload } from 'react-icons/fi';
 import MyInput from '../../components/generic/MyInput';
 import MyLink from '../../components/generic/MyLink';
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
-import { storage } from '../../../../../../firebase-shared/src/lib/firebase-shared';
+import { storage } from '../../../firebase';
 
 interface Props {
   onSubmit: (formData: {
