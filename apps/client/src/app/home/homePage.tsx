@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ProductCard from './components/ProductCard';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const HomePage: React.FC = () => {
   const [products, setProducts] = useState<any[]>([]);
@@ -23,8 +25,26 @@ const HomePage: React.FC = () => {
     fetchData();
   }, []);
 
-  const handleDelete = () => {
-    console.log('Producto borrado');
+  const handleDelete = async (productId: string) => {
+    try {
+      const response = await fetch(
+        `https://productms-jgvgw6iyea-uc.a.run.app/products/delete-product/${productId}`,
+        {
+          method: 'DELETE',
+        }
+      );
+      if (!response.ok) {
+        throw new Error('Error al eliminar el producto');
+      }
+      console.log('Producto eliminado');
+      // Actualiza la lista de productos después de eliminar el producto
+      setProducts(products.filter((product) => product.id !== productId));
+
+      toast.success('Producto eliminado correctamente');
+    } catch (error) {
+      console.error('Error al eliminar el producto:', error);
+      toast.error('Error al eliminar el producto');
+    }
   };
 
   return (
