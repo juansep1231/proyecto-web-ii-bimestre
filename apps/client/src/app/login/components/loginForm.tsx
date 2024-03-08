@@ -44,7 +44,7 @@ const LoginForm: React.FC<Props> = ({ onSubmit }) => {
         <div className="text-right">
           <MyLink
             href={`/reset-password`}
-            className="text-small m-auto text-blue-600"
+            className="text-small m-auto text-[#0f70b7]"
           >
             ¿Olvidaste tu contraseña?
           </MyLink>

@@ -1,5 +1,6 @@
 import React from 'react';
 import LoginForm from './components/loginForm';
+import MyLink from '../components/generic/MyLink';
 
 const LoginPage: React.FC = () => {
   const handleLogin = (formData: { username: string; password: string }) => {
@@ -19,6 +20,14 @@ const LoginPage: React.FC = () => {
               Empieza a adquirir los más nuevos diseños de ropa directo a la
               puerta de tu casa.
             </p>
+          </div>
+          <div>
+            <MyLink
+              href={`/register`}
+              className="text-small m-auto text-blue-800 tex"
+            >
+              ¿No tienes cuenta? Regístrate
+            </MyLink>
           </div>
         </div>
       </div>
