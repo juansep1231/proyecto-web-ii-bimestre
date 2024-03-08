@@ -14,20 +14,32 @@ const AddPage: React.FC = () => {
     url: string;
   }) => {
     const { id, name, description, price, url } = formData;
-    const productosCollection = collection(db, "productos");
-    const productoDoc = doc(productosCollection, id);
     try {
-      await setDoc(productoDoc, {
-        name: name,
-        description: description,
-        price: price,
-        url: url
+      const response = await fetch('/products/new-product', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: id,
+          name: name,
+          description: description,
+          price: price,
+          url: url
+        })
       });
-      console.log("Producto guardado correctamente.");
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log("Response:", data);
+      // Puedes hacer algo con la respuesta aquí, por ejemplo, mostrar un mensaje de éxito.
     } catch (error) {
-      console.error("Error al guardar el producto:", error);
+      console.error("Error al enviar la solicitud:", error);
+      // Manejo de errores, como mostrar un mensaje de error al usuario.
     }
-    console.log(formData);
   };
 
   return (
