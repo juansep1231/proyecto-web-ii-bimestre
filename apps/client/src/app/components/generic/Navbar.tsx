@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
             <Link to="/add">Añadir praducto</Link>
           </li>
           <li className="hover:text-gray-700 rounded-md px-3 py-1">
-            <Link to="/delete">Borrar producto</Link>
+            <Link to="/show">Mostrar producto</Link>
           </li>
           <li className="hover:text-gray-700 rounded-md px-3 py-1">
             <Link to="/update">Actualizar producto</Link>
