@@ -10,9 +10,9 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="flex items-center justify-between bg-[#5f9ea0] text-neutral-100 text-lg py-4 px-8">
+    <nav className="flex items-center justify-between bg-[#5f9ea0] text-neutral-100 text-lg py-4 px-8 shadow-lg">
       <div className="flex items-center">
-        <Link to="/login" className="text-xl font-bold">
+        <Link to="/login" className="text-xl font-bold ">
           <img
             src="/img/logoImg.png"
             alt="LogoFashionFushion"
@@ -22,16 +22,16 @@ const Navbar: React.FC = () => {
       </div>
       <div>
         <ul className="flex">
-          <li className="mr-6">
+          <li className="hover:text-gray-700 rounded-md px-3 py-1">
             <Link to="/home">Home</Link>
           </li>
-          <li className="mr-6">
+          <li className="hover:text-gray-700 rounded-md px-3 py-1">
             <Link to="/add">Añadir praducto</Link>
           </li>
-          <li className="mr-6">
+          <li className="hover:text-gray-700 rounded-md px-3 py-1">
             <Link to="/delete">Borrar producto</Link>
           </li>
-          <li>
+          <li className="hover:text-gray-700 rounded-md px-3 py-1">
             <Link to="/update">Actualizar producto</Link>
           </li>
         </ul>
