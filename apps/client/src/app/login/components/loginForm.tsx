@@ -70,21 +70,21 @@ const LoginForm: React.FC = () => {
             ¿Olvidaste tu contraseña?
           </MyLink>
         </div>
-        <div className="flex justify-center">
+        <div className="flex flex-col items-center justify-center gap-2">
           <button
             type="submit"
             className="btn btn-primary p-3 rounded-xl bg-[#0f70b7] w-60 text-white hover:bg-gray-400"
           >
             Iniciar sesión
           </button>
+          <button
+            onClick={handleGoogleSignin}
+            className="btn btn-primary p-3 rounded-xl w-60 bg-[#0f70b7] hover:bg-gray-400 text-white"
+          >
+            Inicia sesion con Google
+          </button>
         </div>
       </form>
-      <button
-        onClick={handleGoogleSignin}
-        className="btn btn-primary p-3 rounded-xl w-60 bg-[#0f70b7] hover:bg-gray-400 text-white"
-      >
-        Inicia sesion con Google
-      </button>
     </div>
   );
 };

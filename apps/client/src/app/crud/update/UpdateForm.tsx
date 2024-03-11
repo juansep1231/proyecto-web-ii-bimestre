@@ -3,7 +3,9 @@ import { FiAtSign, FiUpload } from 'react-icons/fi';
 import MyInput from '../../components/generic/MyInput';
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 interface Props {
   onSubmit: (formData: {
@@ -16,35 +18,35 @@ interface Props {
 }
 
 const UpdateForm: React.FC<Props> = ({ onSubmit }) => {
-  const [id, setId] = useState("");
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [id, setId] = useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const [price, setPrice] = useState(0);
   const [image, setImage] = useState<File | null>(null);
   const [url, setUrl] = useState('');
 
-    //Cargar imagen al storage
-    const uploadFile = async (file: File) => {
-      const storageRef = ref(storage, name);
-      try {
-        await uploadBytes(storageRef, file);
-        console.log('Uploaded file!');
-      } catch (error) {
-        console.error('Error uploading file:', error);
-      }
-    };
+  const uploadFile = async (file: File) => {
+    const storageRef = ref(storage, name);
+    try {
+      await uploadBytes(storageRef, file);
+      console.log('Uploaded file!');
+      toast.success('Producto actualizado exitosamente');
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      toast.error('Error al actualizar el producto');
+    }
+  };
 
-    const getImageUrl = async (name: string) => {
-      try {
-        const downloadUrl = await getDownloadURL(ref(storage, name));
-        setUrl(downloadUrl);
-        return downloadUrl;
-      } catch (error) {
-        console.error('Error getting image URL:', error);
-        return '';
-      }
-    };
-
+  const getImageUrl = async (name: string) => {
+    try {
+      const downloadUrl = await getDownloadURL(ref(storage, name));
+      setUrl(downloadUrl);
+      return downloadUrl;
+    } catch (error) {
+      console.error('Error getting image URL:', error);
+      return '';
+    }
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -65,6 +67,7 @@ const UpdateForm: React.FC<Props> = ({ onSubmit }) => {
       <div>
         <h1 className="text-2xl text-gray-700">Actualizar Producto</h1>
       </div>
+      <ToastContainer />
       <form onSubmit={handleSubmit} className="flex flex-col gap-8">
         <div className="flex flex-col gap-5">
           <MyInput

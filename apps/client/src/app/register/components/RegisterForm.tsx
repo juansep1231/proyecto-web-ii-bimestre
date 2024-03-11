@@ -30,7 +30,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
     try {
       await signup(email, password);
       onSubmit({ email, password, confirmPassword });
-      toast('Su registro se realizó con exito');
+      toast.success('Su registro se realizó con exito');
     } catch (error: any) {
       toast.error(error.message);
     }

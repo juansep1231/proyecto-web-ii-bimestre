@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { FiAtSign, FiLock, FiUpload } from 'react-icons/fi';
+import { FiUpload } from 'react-icons/fi';
 import MyInput from '../../components/generic/MyInput';
-import MyLink from '../../components/generic/MyLink';
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
-import e from 'express';
-import v4 from 'uuid';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+
 interface Props {
   onSubmit: (formData: {
     id: string;
@@ -30,8 +31,10 @@ const AddForm: React.FC<Props> = ({ onSubmit }) => {
     try {
       await uploadBytes(storageRef, file);
       console.log('Uploaded file!');
+      toast.success('Producto añadido exitosamente');
     } catch (error) {
       console.error('Error uploading file:', error);
+      toast.error('Error al añadir el producto');
     }
   };
 
@@ -70,6 +73,7 @@ const AddForm: React.FC<Props> = ({ onSubmit }) => {
       <div>
         <h1 className="text-2xl text-gray-700">Añadir nuevo producto</h1>
       </div>
+      <ToastContainer />
       <form onSubmit={handleSubmit} className="flex flex-col gap-8">
         <div className="flex flex-col gap-5">
           <MyInput
