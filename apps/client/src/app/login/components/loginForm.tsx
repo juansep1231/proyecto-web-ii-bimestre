@@ -77,12 +77,6 @@ const LoginForm: React.FC = () => {
           >
             Iniciar sesión
           </button>
-          <button
-            onClick={handleGoogleSignin}
-            className="btn btn-primary p-3 rounded-xl w-60 bg-[#0f70b7] hover:bg-gray-400 text-white"
-          >
-            Inicia sesion con Google
-          </button>
         </div>
       </form>
     </div>
