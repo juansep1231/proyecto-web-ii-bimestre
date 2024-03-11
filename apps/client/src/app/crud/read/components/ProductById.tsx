@@ -8,7 +8,7 @@ interface Product {
   name: string;
   description: string;
   price: number;
-  image: string; // Cambiado a 'photo' en lugar de 'photoRef'
+  url: string; // Cambiado a 'photo' en lugar de 'photoRef'
 }
 
 const ProductById: React.FC = () => {
@@ -49,7 +49,7 @@ const ProductById: React.FC = () => {
         />
         <button
           onClick={handleSearch}
-          className="rounded-xl bg-[#0f70b7] w-20 text-white h-12"
+          className="rounded-xl bg-[#0f70b7] w-20 text-white h-12 hover:bg-gray-400"
           disabled={loading}
         >
           {loading ? 'Cargando...' : 'Buscar'}

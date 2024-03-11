@@ -130,7 +130,7 @@ const AddForm: React.FC<Props> = ({ onSubmit }) => {
         <div className="flex justify-center">
           <button
             type="submit"
-            className="btn btn-primary p-3 rounded-xl bg-[#0f70b7] w-40 text-white"
+            className="btn btn-primary p-3 rounded-xl bg-[#0f70b7] w-40 text-white hover:bg-gray-400"
           >
             Añadir producto
           </button>
