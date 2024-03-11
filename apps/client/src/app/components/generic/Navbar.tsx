@@ -50,7 +50,7 @@ const Navbar: React.FC = () => {
       <div className="flex items-center gap-6">
         <div>
           <button
-            className="btn btn-primary rounded-xl w-fit text-white hover:bg-gray-400"
+            className="btn btn-primary rounded-xl w-fit text-white hover:text-gray-700"
             onClick={handleLogout}
           >
             Cerrar sesión
