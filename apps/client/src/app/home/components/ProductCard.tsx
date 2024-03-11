@@ -4,7 +4,7 @@ import MyIcon from '../../components/generic/MyIcon';
 interface Product {
   id: string; // Agrega el ID del producto al tipo Product
   name: string;
-  image: string;
+  url: string;
   description: string;
   price: number;
 }
@@ -22,6 +22,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onDelete }) => {
   return (
     <div className="border rounded-lg overflow-hidden shadow-lg w-80 p-8 flex flex-col items-center justify-between gap-3 h-56">
       <div className="flex justify-end w-full">
+        <img src={product.url} className="h-3 w-3" />
         <button
           onClick={handleDeleteClick} // Usa la función de manejo de clic para eliminar
           className="rounded-xl border bg-gray-50 text-gray-400 hover:bg-neutral-200 focus:outline-none p-2"

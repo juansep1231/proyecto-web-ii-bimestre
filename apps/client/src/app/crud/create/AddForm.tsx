@@ -4,7 +4,8 @@ import MyInput from '../../components/generic/MyInput';
 import MyLink from '../../components/generic/MyLink';
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
-
+import e from 'express';
+import v4 from 'uuid';
 interface Props {
   onSubmit: (formData: {
     id: string;
@@ -25,7 +26,7 @@ const AddForm: React.FC<Props> = ({ onSubmit }) => {
 
   //Cargar imagen al storage
   const uploadFile = async (file: File) => {
-    const storageRef = ref(storage, name);
+    const storageRef = ref(storage, `Imagenes/${name}`);
     try {
       await uploadBytes(storageRef, file);
       console.log('Uploaded file!');
@@ -36,7 +37,9 @@ const AddForm: React.FC<Props> = ({ onSubmit }) => {
 
   const getImageUrl = async (name: string) => {
     try {
-      const downloadUrl = await getDownloadURL(ref(storage, name));
+      const downloadUrl = await getDownloadURL(
+        ref(storage, `Imagenes/${name}`)
+      );
       setUrl(downloadUrl);
       return downloadUrl;
     } catch (error) {
@@ -52,14 +55,15 @@ const AddForm: React.FC<Props> = ({ onSubmit }) => {
     onSubmit({ id, name, description, price, url: imageUrl });
   };
 
-  const handlePhotoChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
-      console.log("Nombre del archivo seleccionado:", file.name);
+      console.log('Nombre del archivo seleccionado:', file.name);
       setPhoto(file);
     }
   };
-
 
   return (
     <div className="flex flex-col items-center justify-center border bg-white rounded-2xl w-[450px] h-5/5 gap-8 py-10 shadow-md">
@@ -112,7 +116,7 @@ const AddForm: React.FC<Props> = ({ onSubmit }) => {
                 name="photo"
                 type="file"
                 accept="image/*"
-                onChange={handlePhotoChange}
+                onChange={(e) => setPhoto(e.target.files && e.target.files[0])}
                 className="hidden"
               />
               <FiUpload className="text-blue-500" />
